@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://devconnect:nitish82988@cluster0-onuwx.mongodb.net/test?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://devconnect:nitish82988@cluster0-onuwx.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "mysecretkeyforjwt@123456"
 }
