@@ -5,7 +5,7 @@ const DbConnect = require('./config/db');
 DbConnect();
 
 
-
+app.use(express.json({ extended : false}));
 const PORT = process.env.PORT || 3000 ;
 
 
@@ -17,6 +17,7 @@ app.listen(PORT, (err) => {
 
 
 app.use('/api/user', require('./route/api/users'));
+app.use('/api/auth', require('./route/api/auth'));
 
 app.get('/', (req, res) => {
     res.send('Yup Done');

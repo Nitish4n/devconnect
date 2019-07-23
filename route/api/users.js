@@ -4,7 +4,10 @@ const { check, validationResult } = require('express-validator');
 const User = require('../../modal/User');
 const gravatar = require('gravatar');
 const bcryptjs = require('bcryptjs');
-
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const jwtSecret = config.get('jwtSecret');
+const auth = require('../../middleware/auth');
 
 // @ route /user/test
 // @ access public
@@ -16,10 +19,10 @@ router.get('/test', (req, res) => {
 
 
 router.post('/create', [
-    check('name', 'Name is required').not().isEmpty(),
-    check('email', 'Invalid Email').isEmail(),
-    check('password', 'Min length is 5').isLength({min: 5})
-] , async (req, res) => {
+        check('name', 'Name is required').not().isEmpty(),
+        check('email', 'Invalid Email').isEmail(),
+        check('password', 'Min length is 5').isLength({min: 5})
+    ] , async (req, res) => {
 
 
     console.log('11');
@@ -53,12 +56,37 @@ router.post('/create', [
 
         await user.save();
 
-        console.log('user created')
+        const payload = {
+            user: {
+                id : user.id
+            }
+        }
+
+        //signin 
+        jwt.sign(payload, jwtSecret, { expiresIn: 3600000 }, (err, token) => {
+            if(err) throw err;
+
+            res.status(200).json({ token : token });
+        })
+
+
+        
     } catch(err){
         console.log(err.message)
         res.status(500).send('Server Error');
     }
 
+});
+
+
+router.post('/profile',auth, async (req, res)=> {
+    try{
+        user = await User.findById(req.user.id).select('-password');
+        res.json(user)
+    }catch(err){
+        res.status(401).send('Server Error');
+    }
+    
 });
 
 
