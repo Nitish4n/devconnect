@@ -1,30 +1,23 @@
-const express  =  require('express');
+const express = require("express");
 const app = express();
-const connectDB = require('./config/db');
+const DbConnect = require('./config/db');
+
+DbConnect();
 
 
-//connect db mongo
-connectDB();
 
-// Init Middleware
-app.use(express.json({ extended: false}));
+const PORT = process.env.PORT || 3000 ;
 
-PORT = process.env.PORT || 5000;
 
-app.listen(PORT, (err)=> {
-    if(err){
-        console.log('Unable to connect');
-    }
+app.listen(PORT, (err) => {
+    if(err){ console.log('Issue in server Start '+ err.message)};
 
-    console.log(`PORT running on ${PORT}`);
+    console.log(`PORT ${PORT} is running`)
 })
 
 
-app.use('/api/user',  require('./routes/api/users'));
-app.use('/api/auth',  require('./routes/api/auth'));
-app.use('/api/profile',  require('./routes/api/profile'));
-app.use('/api/post',  require('./routes/api/posts'));
+app.use('/api/user', require('./route/api/users'));
 
 app.get('/', (req, res) => {
-    res.send('Working Home Page');
+    res.send('Yup Done');
 })

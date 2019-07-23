@@ -1,16 +1,13 @@
-const config = require('config');
 const mongoose = require('mongoose');
+const config = require('config');
 const db = config.get('mongoURI');
-
-const connectDB = async () => {
-    try {
-        await mongoose.connect(db, { useNewUrlParser: true , useCreateIndex : true} , () => {
-            console.log('Mongo DB Connecteddd');
-        });
-    } catch (err){
+module.exports =  DbConnect =  async () =>{
+    try{
+        await mongoose.connect('mongodb+srv://devconnect:nitish82988@cluster0-onuwx.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true} , ()=>{
+            console.log('Mongoose connected');
+        })
+    }catch(err){
         console.log(err.message)
         process.exit(1);
     }
 }
-
-module.exports = connectDB;
