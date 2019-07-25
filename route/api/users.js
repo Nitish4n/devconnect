@@ -24,14 +24,12 @@ router.post('/create', [
         check('password', 'Min length is 5').isLength({min: 5})
     ] , async (req, res) => {
 
-
-    console.log('11');
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors });
     }
     const { name, email, password } = req.body;
-    console.log('12');
+    
     try{
         //check user exist
         let user = await User.findOne({ email });
