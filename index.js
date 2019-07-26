@@ -18,6 +18,7 @@ app.listen(PORT, (err) => {
 
 app.use('/api/user', require('./route/api/users'));
 app.use('/api/auth', require('./route/api/auth'));
+app.use('/api/profile', require('./route/api/profile'));
 
 app.get('/', (req, res) => {
     res.send('Yup Done');
