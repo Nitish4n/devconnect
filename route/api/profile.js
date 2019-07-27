@@ -191,7 +191,7 @@ router.put('/experience', [auth,
     check('title', 'Title is required').not().isEmpty(),
     check('company', 'company is required').not().isEmpty(),
     check('location', 'location is required').not().isEmpty(),
-    check('from ', 'from date is required').not().isEmpty(),
+    check('from', 'from date is required').not().isEmpty(),
 ] , async (req, res) => {
 
     const errors = validationResult(req);
@@ -199,7 +199,7 @@ router.put('/experience', [auth,
         res.status(400).json({ errors : errors.array()})
     }
 
-    const { title, company, location, from, to , current, description  } = req.body;
+    const { title, from, company,  location, to , current, description  } = req.body;
 
     const newExp = { title, company, location, from, to , current, description  }
 
@@ -218,7 +218,39 @@ router.put('/experience', [auth,
 
 });
 
+// @ Route  PUT api/profile/education
+// @ desc   Update current user profile education
+// @ access Private
+router.put('/education', [auth, 
+    check('school', 'school is required').not().isEmpty(),
+    check('degree', 'degree is required').not().isEmpty(),
+    check('fieldofstudy', 'field of study is required').not().isEmpty(),
+    check('from', 'from date is required').not().isEmpty(),
+] , async (req, res) => {
 
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        res.status(400).json({ errors : errors.array()})
+    }
+
+    const {  school, degree, fieldofstudy, from, to, current, description  } = req.body;
+
+    const newEdu = {  school, degree, fieldofstudy, from, to, current, description }
+
+    try {
+        
+        const profile = await Profile.findOne({ user: req.user.id });
+        profile.education.unshift(newEdu);
+
+        await profile.save();
+
+        res.json(profile);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({msg: "Server Error"})
+    }
+
+});
 // @ Route  Delete api/profile/experience/:exp_id
 // @ desc   Delete profile experience by Id
 // @ access Private
