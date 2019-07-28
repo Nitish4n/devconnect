@@ -1,12 +1,12 @@
-import React from 'react';
-import Link from 'react-router-dom';
+import React, { Fragment } from 'react';
+import {  Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
-        <div>
+        <Fragment>
             <nav className="navbar bg-dark">
                 <h1>
-                    <Link to="/"><i className="fas fa-code"></i> DevConnector</a>
+                    <Link to="/"><i className="fas fa-code"></i> DevConnector</Link>
                 </h1>
                 <ul>
                     <li><Link to="/profiles">Developers</Link></li>
@@ -14,7 +14,7 @@ const Navbar = () => {
                     <li><Link to="/login">Login</Link></li>
                 </ul>
             </nav>
-        </div>
+        </Fragment>
     )
 }
 
